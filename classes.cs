@@ -1,11 +1,21 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 //start of space class
-public class Space
+public abstract class Space
 {
-    string Name;
-    string Type;
-    int position;
+    public string Name;
+    public string Type;
+    public int position;
+    public Space(string givenName, string givenType, int givenPosition){
+        Name = givenName;
+        Type = givenType;
+        position = givenPosition;
+    }
+    public Space(){
+        Console.WriteLine("Called the wrong Space Constructor.");
+    }
 }
 
 public class Property : Space
@@ -16,56 +26,88 @@ public class Property : Space
         Dog = 1, Cat = 2, TopHat = 3, Battleship = 4, Shoe = 5, Wheelbarrow = 6, Thimble = 7, Iron = 8
 
     }
-    int Rent;
-    int price;
-    int mortgagePrice;
-    bool owned;
-    int owner;
-    int numHouses;
-    int numHotels;
+    protected int Rent;
+    protected int price;
+   // removed because it's calculatable
+   // int mortgagePrice;
+    protected bool owned;
+    protected int owner;
+    protected string color;
     // start of property functions
-    public virtual int calculaterent()
+    public virtual void calculaterent()
     {
-        if(numHouses >= 1){
-            //if there are houses, it's half of the rent times the number of houses. Subject to change
-            Rent = (Rent * numHouses) / 2;
-        }else if(numHotels == 1){
-            //if there is a hotel, the rent is tripled
-            Rent = Rent * 3;
-        }
-        Return Rent;
+        //rent typically is only rent
+        Rent = Rent;
     }
-    public virtual void updateOwner()
+    public virtual void updateOwner(int givenInt)
     {
-        owner = PlayerPieces;
+        //transfers ownership to other player
+        owner = givenInt;
     }
-    //constructor
-    public Property(givenName, givenType, givenPosition, givenRent, givenPrice, givenHouses, givenHotels, givenOwner){
-        Name = givenName;
-        Type = givenType;
-        position = givenPosition;
+    public Property(int givenRent, int givenPrice, bool givenOwned, int givenOwner, string givenColor,
+    string givenName, string givenType, int givenPosition): base(givenName, givenType, givenPosition){
         Rent = givenRent;
         price = givenPrice;
-        numHouses = givenHouses;
-        numHotels = givenHotels;
+        owned = givenOwned;
         owner = givenOwner;
+        color = givenColor;
+        //DEBUG
+        Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", Rent, price, owned, owner, Name, Type, position, color);
+    }
+    public Property(){
+        Console.WriteLine("Called the wrong Property Constructor.");
     }
 }
+//start of resedential property class
+public class Resedential : Property
+{
+    int rent2Houses;
+    int rent3Houses;
+    int rentHotel;
+    //functions for resedential properties
+    public override void calculaterent()
+    {
+        if(rent2Houses == 1){
+            Rent *= 2;
+        }else if(rent3Houses == 1){
+            Rent *= 3;
+        }else if(rentHotel == 1){
+            Rent *= 4;
+        }
+    }
+    public override void updateOwner(int givenInt)
+    {
+
+    }
+}
+//end of resedential property class
 //start of utility property class
 public class Utility : Property
 {
     bool rentDualUtility;
     int RentDualUtility;
     //utility class functions
-    public override int calculaterent(givenNumber)
+    public override void calculaterent()
     {
-        //if you have one utility it is 16, 2 is 26, etc.
-        Rent = Rent + (10*givenNumber)
-        return Rent;
+        if(rentDualUtility == true){
+            Rent = Rent + (10 * RentDualUtility);
+        }
     }
-    public override void updateOwner()
+    public override void updateOwner(int givenInt)
     {
-        owner = PlayerPieces;
+        owner = givenInt;
+    }
+    public Utility(bool givenRentDualUtility, int givenRentNumber,int givenRent, int givenPrice, bool givenOwned, int givenOwner, string givenColor,
+    string givenName, string givenType, int givenPosition):
+    base(givenRent,givenPrice,givenOwned,givenOwner, givenColor,
+    givenName,givenType,givenPosition){
+        rentDualUtility = givenRentDualUtility;
+        RentDualUtility = givenRentNumber;
+        Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}", Name, Type, position, color, owned, owner, price, Rent, rentDualUtility, RentDualUtility);
+    }
+
+    public Utility(){
+        Console.WriteLine("Blank Utility Constructor");
     }
 }
 //end of utility property class
@@ -74,13 +116,22 @@ public class otherSpace : Space
 {
     string action;
     //functions for otherSpace
-    public void performAction(player)
+    public void performAction()
     {
-        if(name == 'Go'){
-            player.plyrMoney += 200;
-        }else if (name == 'Community Chest'){
-            console.log('Draw a random community Chest card')
-        }//etc.
+        if(action == "Draw Community Chest Card"){
+            //Draws a random community chest card
+        }else if (action == "Pay Income Tax"){
+            //pay Income Tax
+        }
+    }
+    public otherSpace(string givenAction, string givenName, string givenType, int givenPosition)
+    :base(givenName, givenType, givenPosition){
+        action = givenAction;
+        Name = givenName;
+        Type = givenType;
+        position = givenPosition;
+        //DEBUG
+        Console.WriteLine("{0}, {1}, {2}, {3}", action, Name, Type, position);
     }
 }
 public class Player
@@ -89,19 +140,18 @@ public class Player
     int playerPiece;
     int plyrPosition;
     int plyrMoney;
-    string[] PropertiesOwned = new string[] { };
+    List<string> PropertiesOwned = new List <string> ();
     bool jailed;
-    int position;
     //player functions
-    public void addPlayer(givenName, givenPiece)
+    public void addPlayer(int givenNum)
     {
-        Name = givenName;
-        playerPiece = givenPiece;
-        //subject to change
-        plyrMoney = 1000;
-        position = 1;
+        Console.WriteLine("NAME: ");
+        Name = Console.ReadLine();
+        plyrPosition = 1;
+        playerPiece = givenNum++;
         jailed = false;
-        Console.log("Player successfully added.")
+        //subject to change for balance
+        plyrMoney = 2000;
     }
     public void updatePlayer()
     {
@@ -109,36 +159,40 @@ public class Player
     }
     public void RollDice()
     {
-        Random dice = new Random();
-        int roll = dice.next(1, 7)
-        plyrPosition += roll;
-        //roll over to go through the board again
-        if(plyrPosition >= 40){
+        Random rnd = new Random();
+        int dice = rnd.Next(1, 7);
+        plyrPosition += dice;
+        if(plyrPosition >= 41){
             plyrPosition -= 40;
         }
-        Console.log("The new position is: {0}", plyrPosition)
     }
-    public void PayRent()
+    public void PayRent(int rentCharge)
     {
-        plyrMoney -= rent;
+        plyrMoney -= rentCharge;
     }
-    public void BuySpace()
+    public void BuySpace(string SpaceName, int PriceAmount)
     {
-        plyrMoney -= price;
+        PropertiesOwned.Add(SpaceName);
+        plyrMoney -= PriceAmount;
     }
-    public void Mortgage()
+    public void DrawCard()
     {
 
     }
+    public void Mortgage( int MortgageAmount, string SpaceName)
+    {
+        plyrMoney += MortgageAmount;
+        PropertiesOwned.Remove(SpaceName);
+    }
     public void BuyHouse()
     {
-        plyrMoney -= 50;
-        numHouses++;
+        //subject to change
+        plyrMoney -= 100;
     }
     public void BuyHotel()
     {
+        //subject to change
         plyrMoney -= 200;
-        numHotels++;
     }
     //end of player functions
 }
@@ -150,12 +204,17 @@ public class Bank
     int numberRemaingHotels;
     //only 12 hotels allowed
     //Bank Functions
-    public void ChargePlayer()
+    public void ChargePlayer(int Amount)
     {
-        
+        Money += Amount;
     }
-    public void PayPlayer()
+    public void PayPlayer(int Amount)
     {
-
+        Money -= Amount;
     }
+}
+public class Dice
+{
+    int NumberDice;
+    int NumberOnDice;
 }
