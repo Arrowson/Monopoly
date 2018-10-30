@@ -1,12 +1,13 @@
 # Team Monopoly
 ---
 ## Contributers
- Aaron Williamson
- Tanner Cude
- William Bates
- Miguel Reveles
- Ji Yifu
- Trevor Vieth
+ * Aaron Williamson
+ * Tanner Cude
+ * William Bates
+ * Miguel Reveles
+ * Ji Yifu
+ * Trevor Vieth
+ * Oscar Davila
  ---
  ### Updated
  ###### 10/29/2018 
