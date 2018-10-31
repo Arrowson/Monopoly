@@ -111,6 +111,29 @@ public class Utility : Property
     }
 }
 //end of utility property class
+//start of transport property class
+public class Transport : Property
+{
+    int rent2Railroad;
+    int rent3Railroad;
+    int rent4Railraod;
+    //functions for transport properties
+    public override void calculaterent()
+    {
+        if(rent2Railroad == 1){
+            Rent *= 2;
+        }else if(rent3Railroad == 1){
+            Rent *= 3;
+        }else if(rent4Railraod == 1){
+            Rent *= 4;
+        }
+    }
+    public override void updateOwner(int givenInt)
+    {
+
+    }
+}
+//end of transport property class
 //start of otherSpace
 public class otherSpace : Space
 {

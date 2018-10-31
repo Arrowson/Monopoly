@@ -55,6 +55,10 @@ namespace Monopoly
             public Property(int givenRent, int givenPrice, bool givenOwned, int givenOwner,
             string givenName, string givenType, int givenPosition): base(givenName, givenType, givenPosition)
              */
+            /*
+            public Transport(int givenRent, int givenPrice, bool givenOwned, int givenOwner,
+            string givenName, string givenType, int givenPosition): base(givenName, givenType, givenPosition)
+             */
              /*public Utility(bool givenRentDualUtility, int givenRentNumber,int givenRent, int givenPrice, bool givenOwned, int givenOwner, string givenColor,
             string givenName, string givenType, int givenPosition)
              */
@@ -69,7 +73,7 @@ namespace Monopoly
             Spaces.Add(MediterranianAve);
             otherSpace IncomeTax = new otherSpace("Pay Income Tax", "Income Tax", "otherSpace", 5);
             Spaces.Add(IncomeTax);
-            Utility ReadingRailroad = new Utility(false, 0, 6, 200, false, 0, "White", "Reading Railroad", "Utility", 6);
+            Property ReadingRailroad = new Property(50, 200, false, 0, "White", "ReadingRailroad", "Transprt", 8);
             Spaces.Add(ReadingRailroad);
 
             Console.WriteLine("Game is started");
