@@ -73,6 +73,9 @@ namespace Monopoly
             Spaces.Add(MediterranianAve);
             otherSpace IncomeTax = new otherSpace("Pay Income Tax", "Income Tax", "otherSpace", 5);
             Spaces.Add(IncomeTax);
+            //I changed the ReadingRailraod. It's something we can discuss but I believe it acts similar to a resedential property 
+            //since the rent amount increases as you accumulate more railroads. This is the reason I believe it deserves its own 
+            //class. I'll go ahead and submit the assignment as it is in the master branch though -mreveles
             Property ReadingRailroad = new Property(50, 200, false, 0, "White", "ReadingRailroad", "Transprt", 8);
             Spaces.Add(ReadingRailroad);
 
