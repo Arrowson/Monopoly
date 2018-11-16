@@ -1,0 +1,23 @@
+Rent,Price,Owned,Owner,Color,Name,Type,Position
+2,60,FALSE,0,Brown,Mediterranian Ave.,Property,2
+4,60,FALSE,0,Brown,Baltic Ave.,Property,4
+6,100,FALSE,0,Light-Blue,Oriental Ave.,Property,7
+6,100,FALSE,0,Light-Blue,Vermont Ave.,Property,9
+8,120,FALSE,0,Light-Blue,Connecticut Ave.,Property,10
+10,140,FALSE,0,Violet,St. Charles Place,Property,12
+10,140,FALSE,0,Violet,States Ave.,Property,14
+12,160,FALSE,0,Violet,Virginia Ave,Property,15
+14,180,FALSE,0,Orange,St. James Place,Property,17
+14,180,FALSE,0,Orange,Tennessee Ave.,Property,19
+16,200,FALSE,0,Orange,New York Ave.,Property,20
+18,220,FALSE,0,Red,Kentucky Ave.,Property,22
+18,220,FALSE,0,Red,Indiana Ave.,Property,24
+20,240,FALSE,0,Red,Illinois Ave.,Property,25
+22,260,FALSE,0,Yellow,Atlantic Ave. ,Property,27
+22,260,FALSE,0,Yellow,Ventnor Ave.,Property,28
+24,280,FALSE,0,Yellow,Marvin Gardens,Property,30
+26,300,FALSE,0,Green,Pacific Ave.,Property,32
+26,300,FALSE,0,Green,Nort Carolina Ave.,Property,33
+28,320,FALSE,0,Green,Pennsylvania Ave.,Property,35
+35,350,FALSE,0,Blue,Park Place,Property,38
+50,400,FALSE,0,Blue,Boardwalk,Property,40

@@ -5,23 +5,38 @@ using System.IO;
 //start of space class
 public abstract class Space
 {
-    public string Name;
-    public string Type;
-    public int position;
+    protected string Name;
+    protected string Type;
+    protected int position;
     public Space(string givenName, string givenType, int givenPosition){
         Name = givenName;
         Type = givenType;
         position = givenPosition;
     }
+    public Space(string[] datas){
+        Name = datas[1].Trim();
+        Type = datas[2].Trim();
+        position = int.Parse(datas[3].Trim());
+    }
+    public Space(string[] datas, string Util, string Prop){
+        Name = datas[7].Trim();
+        Type = datas[8].Trim();
+        position = Convert.ToInt32(datas[9].Trim());
+    }
+    public Space(string[] datas, string Prop){
+        Name = datas[5].Trim();
+        Type = datas[6].Trim();
+        position = Convert.ToInt32(datas[7].Trim());
+    }
     public Space(){
-        Console.WriteLine("Called the wrong Space Constructor.");
+        Console.WriteLine("Called the wrong Space Constructor");
     }
 }
 
 public class Property : Space
 {
     //player enum to store player pieces names
-    public enum PlayerPieces
+    protected enum PlayerPieces
     {
         Dog = 1, Cat = 2, TopHat = 3, Battleship = 4, Shoe = 5, Wheelbarrow = 6, Thimble = 7, Iron = 8
 
@@ -54,8 +69,25 @@ public class Property : Space
         //DEBUG
         Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", Rent, price, owned, owner, Name, Type, position, color);
     }
+    public Property(string[] datas):base(datas){
+        
+    }
+    public Property(string[] datas, string Util, string Prop):base(datas, Util, Prop){
+        Rent = int.Parse(datas[2].Trim());
+        price = Convert.ToInt32(datas[3].Trim());
+        owned = bool.Parse(datas[4].Trim());
+        owner = Convert.ToInt32(datas[5].Trim());
+        color = datas[6].Trim();
+    }
+    public Property(string[] datas, string Prop):base(datas, Prop){
+        Rent = int.Parse(datas[0].Trim());
+        price = Convert.ToInt32(datas[1].Trim());
+        owned = bool.Parse(datas[2].Trim());
+        owner = Convert.ToInt32(datas[3].Trim());
+        color = datas[4].Trim();
+    }
     public Property(){
-        Console.WriteLine("Called the wrong Property Constructor.");
+        Console.WriteLine("Called the Wrong Property Constructor");
     }
 }
 //start of resedential property class
@@ -78,6 +110,9 @@ public class Resedential : Property
     public override void updateOwner(int givenInt)
     {
 
+    }
+    public Resedential(){
+        Console.WriteLine("Called the Wrong Resedential Constructor");
     }
 }
 //end of resedential property class
@@ -106,8 +141,11 @@ public class Utility : Property
         Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}", Name, Type, position, color, owned, owner, price, Rent, rentDualUtility, RentDualUtility);
     }
 
-    public Utility(){
-        Console.WriteLine("Blank Utility Constructor");
+    public Utility(string[] datas, string Util, string Prop):base(datas, Util, Prop){
+        rentDualUtility = bool.Parse(datas[0].Trim());
+        //Console.WriteLine(datas[0].Trim());
+        RentDualUtility = Convert.ToInt32(datas[1].Trim());
+        //Console.WriteLine(datas[1].Trim());
     }
 }
 //end of utility property class
@@ -116,12 +154,17 @@ public class otherSpace : Space
 {
     string action;
     //functions for otherSpace
-    public void performAction()
+    public void performAction(Player player)
     {
-        if(action == "Draw Community Chest Card"){
-            //Draws a random community chest card
-        }else if (action == "Pay Income Tax"){
-            //pay Income Tax
+        switch (action){
+
+            case "200":
+                player.CompleteTask("200");
+                break;
+            case "Community":
+                Random CardDrawn = new Random();
+                
+                break;
         }
     }
     public otherSpace(string givenAction, string givenName, string givenType, int givenPosition)
@@ -132,6 +175,9 @@ public class otherSpace : Space
         position = givenPosition;
         //DEBUG
         Console.WriteLine("{0}, {1}, {2}, {3}", action, Name, Type, position);
+    }
+    public otherSpace(string[] datas):base(datas){
+        action = datas[0].Trim();
     }
 }
 public class Player
@@ -175,7 +221,7 @@ public class Player
         PropertiesOwned.Add(SpaceName);
         plyrMoney -= PriceAmount;
     }
-    public void DrawCard()
+    public void CompleteTask(string task)
     {
 
     }

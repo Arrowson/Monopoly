@@ -681,28 +681,30 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\revel\\.nuget\\packages\\": {},
+    "C:\\Users\\aw964621\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\revel\\Documents\\Fall 2018\\4360( obj anylysis and design)\\Monopoly\\Monopoly.csproj",
+      "projectUniqueName": "C:\\Users\\aw964621\\Downloads\\Monopoly-master\\Monopoly-master\\Monopoly.csproj",
       "projectName": "Monopoly",
-      "projectPath": "c:\\Users\\revel\\Documents\\Fall 2018\\4360( obj anylysis and design)\\Monopoly\\Monopoly.csproj",
-      "packagesPath": "C:\\Users\\revel\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\revel\\Documents\\Fall 2018\\4360( obj anylysis and design)\\Monopoly\\obj\\",
+      "projectPath": "C:\\Users\\aw964621\\Downloads\\Monopoly-master\\Monopoly-master\\Monopoly.csproj",
+      "packagesPath": "C:\\Users\\aw964621\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\aw964621\\Downloads\\Monopoly-master\\Monopoly-master\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\revel\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\aw964621\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

@@ -35,7 +35,9 @@ namespace Monopoly
 
                     case "3":
                         //starts game
-                        startgame();
+                        startgame("Utilities.txt", 'U');
+                        startgame("Properties.txt", 'P');
+                        startgame("OtherSpace.txt", 'O');
                         break;
                     case "4":
                         //exits program
@@ -49,30 +51,31 @@ namespace Monopoly
                 }
             }
         }
-        public static void startgame()
+        public static void startgame(string fileName, char DataType )
         {
-            /*
-            public Property(int givenRent, int givenPrice, bool givenOwned, int givenOwner,
-            string givenName, string givenType, int givenPosition): base(givenName, givenType, givenPosition)
-             */
-             /*public Utility(bool givenRentDualUtility, int givenRentNumber,int givenRent, int givenPrice, bool givenOwned, int givenOwner, string givenColor,
-            string givenName, string givenType, int givenPosition)
-             */
-            Console.WriteLine("LOADING...");
-            otherSpace Go = new otherSpace("collect 200", "Go", "otherSpace", 1);
-            Spaces.Add(Go);
-            Property MediterranianAve = new Property(2, 60, false, 0, "Brown", "Mediterranian Ave.", "Property", 2);
-            Spaces.Add(MediterranianAve);
-            otherSpace CommChest = new otherSpace("Draw Community Chest Card", "Community Chest", "otherSpace", 3);
-            Spaces.Add(CommChest);
-            Property BalticAve = new Property(4, 60, false, 0,"Brown", "Baltic Ave.", "Property", 4);
-            Spaces.Add(MediterranianAve);
-            otherSpace IncomeTax = new otherSpace("Pay Income Tax", "Income Tax", "otherSpace", 5);
-            Spaces.Add(IncomeTax);
-            Utility ReadingRailroad = new Utility(false, 0, 6, 200, false, 0, "White", "Reading Railroad", "Utility", 6);
-            Spaces.Add(ReadingRailroad);
-
-            Console.WriteLine("Game is started");
+            string[] lines = System.IO.File.ReadAllLines(@fileName);
+            int i = 1;
+            
+            foreach(string line in lines){
+                //Console.WriteLine(line);
+                string[] sData = line.Split(',');
+                Console.WriteLine(line);
+                if (i != 0){
+                    if(DataType == 'U'){
+                        //add string[] to Utility Constructor
+                        Spaces.Add(new Utility(sData, "Utility", "Property"));
+                    }
+                    if(DataType == 'P'){
+                        Spaces.Add(new Property(sData, "Property"));
+                    }
+                    if(DataType == 'O'){
+                        Spaces.Add(new otherSpace(sData));
+                    }
+                }
+                i++;
+            }
+            Console.WriteLine(Spaces);
+            
         }
     }
 }

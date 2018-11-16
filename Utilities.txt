@@ -1,0 +1,6 @@
+False,0,10,150,False,0,White,Electric Company,Utility,13,
+False,0,10,150,False,0,White,Water Works,Utility,29,
+False,0,10,200,False,0,White,Reading Railroad,Utility,6,
+False,0,10,200,False,0,White,Pennsylvania Railroad,Utility,16,
+False,0,10,200,False,0,White,B. & O. Railroad,Utility,26,
+False,0,10,200,False,0,White,Short Line Railroad,Utility,36,
