@@ -5,29 +5,35 @@ using System.IO;
 //start of space class
 public abstract class Space
 {
+    //General variables for Space
     protected string Name;
     protected string Type;
     protected int position;
+    //Original Constructor. Can be removed
     public Space(string givenName, string givenType, int givenPosition){
         Name = givenName;
         Type = givenType;
         position = givenPosition;
     }
+    //Constructor called for adding OtherSpaces to Board
     public Space(string[] datas){
         Name = datas[1].Trim();
         Type = datas[2].Trim();
         position = int.Parse(datas[3].Trim());
     }
+    //Constructor called for adding Utilities to Board
     public Space(string[] datas, string Util, string Prop){
         Name = datas[7].Trim();
         Type = datas[8].Trim();
         position = Convert.ToInt32(datas[9].Trim());
     }
+    //Constructor called for adding Properties
     public Space(string[] datas, string Prop){
         Name = datas[5].Trim();
         Type = datas[6].Trim();
         position = Convert.ToInt32(datas[7].Trim());
     }
+    //Blank constructor used for DEBUGGING
     public Space(){
         Console.WriteLine("Called the wrong Space Constructor");
     }
@@ -59,6 +65,7 @@ public class Property : Space
         //transfers ownership to other player
         owner = givenInt;
     }
+    //Original Constructor. Can be removed.
     public Property(int givenRent, int givenPrice, bool givenOwned, int givenOwner, string givenColor,
     string givenName, string givenType, int givenPosition): base(givenName, givenType, givenPosition){
         Rent = givenRent;
@@ -69,9 +76,7 @@ public class Property : Space
         //DEBUG
         Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", Rent, price, owned, owner, Name, Type, position, color);
     }
-    public Property(string[] datas):base(datas){
-        
-    }
+    //Constructor used when adding Utilities to the Board
     public Property(string[] datas, string Util, string Prop):base(datas, Util, Prop){
         Rent = int.Parse(datas[2].Trim());
         price = Convert.ToInt32(datas[3].Trim());
@@ -79,6 +84,7 @@ public class Property : Space
         owner = Convert.ToInt32(datas[5].Trim());
         color = datas[6].Trim();
     }
+    //Constructor used when adding Properties to the board
     public Property(string[] datas, string Prop):base(datas, Prop){
         Rent = int.Parse(datas[0].Trim());
         price = Convert.ToInt32(datas[1].Trim());
@@ -86,6 +92,7 @@ public class Property : Space
         owner = Convert.ToInt32(datas[3].Trim());
         color = datas[4].Trim();
     }
+    //Blank constructor used for DEBUGGING
     public Property(){
         Console.WriteLine("Called the Wrong Property Constructor");
     }
@@ -132,6 +139,7 @@ public class Utility : Property
     {
         owner = givenInt;
     }
+    //Original Constructor. Can be removed
     public Utility(bool givenRentDualUtility, int givenRentNumber,int givenRent, int givenPrice, bool givenOwned, int givenOwner, string givenColor,
     string givenName, string givenType, int givenPosition):
     base(givenRent,givenPrice,givenOwned,givenOwner, givenColor,
@@ -140,7 +148,7 @@ public class Utility : Property
         RentDualUtility = givenRentNumber;
         Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}", Name, Type, position, color, owned, owner, price, Rent, rentDualUtility, RentDualUtility);
     }
-
+    //Constructor used for adding Utilities to the Board
     public Utility(string[] datas, string Util, string Prop):base(datas, Util, Prop){
         rentDualUtility = bool.Parse(datas[0].Trim());
         //Console.WriteLine(datas[0].Trim());
@@ -159,14 +167,49 @@ public class otherSpace : Space
         switch (action){
 
             case "200":
-                player.CompleteTask("200");
+                player.CompleteTask(200);
                 break;
             case "Community":
+                //creates a random number between 1 and 20. It multiplies it by 10 and will either add or subtract 
+                //the amount from the player's money.
                 Random CardDrawn = new Random();
+                int initial = CardDrawn.Next(1,3);
+                int amount = CardDrawn.Next(1, 21);
+                int charge = amount * 10;
                 
+                if(initial == 1){
+                    player.CompleteTask("-"+string.Parse(charge));
+                }
+                else{
+                    player.CompleteTask(string.Parse(charge));
+                }
+                break;
+            case "-100":
+                player.CompleteTask(-100):
+                break;
+            case "Chance":
+                //moves the player to a random place on the board
+                Random rnd = new Random();
+                int place = rnd.Next(1, 41);
+                player.MovePlayer(place);
+                break;
+            case "Jail":
+                //doesn't really do anything here.
+                break;
+            case "Parking":
+                //playing by rules that it doesn't do anything. Can add a lottery or something later if we want.
+                break;
+            case "Go Jail":
+                //makes the player go to jail and updates the boolean
+                player.updateJail(true);
+                player.MovePlayer(11);
+                break;
+            case "-200":
+                player.CompleteTask(-200);
                 break;
         }
     }
+    //Original Constructor. Can be removed
     public otherSpace(string givenAction, string givenName, string givenType, int givenPosition)
     :base(givenName, givenType, givenPosition){
         action = givenAction;
@@ -176,6 +219,7 @@ public class otherSpace : Space
         //DEBUG
         Console.WriteLine("{0}, {1}, {2}, {3}", action, Name, Type, position);
     }
+    //Constructor used to add OtherSpaces to the Board
     public otherSpace(string[] datas):base(datas){
         action = datas[0].Trim();
     }
@@ -199,6 +243,9 @@ public class Player
         //subject to change for balance
         plyrMoney = 2000;
     }
+    public void updateJail(bool update){
+        jailed = update;
+    }
     public void updatePlayer()
     {
 
@@ -221,7 +268,7 @@ public class Player
         PropertiesOwned.Add(SpaceName);
         plyrMoney -= PriceAmount;
     }
-    public void CompleteTask(string task)
+    public void CompleteTask(int task)
     {
 
     }
@@ -239,6 +286,9 @@ public class Player
     {
         //subject to change
         plyrMoney -= 200;
+    }
+    public void MovePlayer(int x){
+        position = x;
     }
     //end of player functions
 }
