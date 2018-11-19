@@ -17,3 +17,13 @@
  
  ---
  [general rules for Monopoly](https://winning-moves.com/images/megamonopolyrules.pdf)
+
+ ---
+ ## TODO 
+ #### 11/19/2018
+ #### Aaron Williamson
+ 1. Add players to list in add player function in Program.cs --Done AW
+ 2. Enable edit players list in edit player function in Program.cs
+ 3. Create function in Program.cs that is the game.
+ 4. Add logic to remove players when they run out of money.
+ 5. Add logic for adding properties to PropertiesOwned when they are bought.
