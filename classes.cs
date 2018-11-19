@@ -37,6 +37,31 @@ public abstract class Space
     public Space(){
         Console.WriteLine("Called the wrong Space Constructor");
     }
+    public virtual int getPosition(){
+        return position;
+    }
+    public virtual string getOwner(){
+        return null;
+    }
+    public virtual int getRent(){
+        return 0;
+    }
+    public virtual void showData(){
+        
+    }
+    public string getType(){
+        return Type;
+    }
+    public virtual bool CheckOwned(){
+        return false;
+    }
+    public virtual int getPrice(){
+        return 0;
+    }
+    public virtual string getName(){
+        return "name";
+    }
+    public virtual void updateOwner(string givenOwner){}
 }
 
 public class Property : Space
@@ -52,7 +77,7 @@ public class Property : Space
    // removed because it's calculatable
    // int mortgagePrice;
     protected bool owned;
-    protected int owner;
+    protected string owner;
     protected string color;
     // start of property functions
     public virtual void calculaterent()
@@ -60,13 +85,18 @@ public class Property : Space
         //rent typically is only rent
         Rent = Rent;
     }
-    public virtual void updateOwner(int givenInt)
+    public override void updateOwner(string givenOwner)
     {
         //transfers ownership to other player
-        owner = givenInt;
+        owned = true;
+        owner = givenOwner;
+        Console.WriteLine("Owner is now: {0}", owner);
+    }
+    public override bool CheckOwned(){
+        return owned;
     }
     //Original Constructor. Can be removed.
-    public Property(int givenRent, int givenPrice, bool givenOwned, int givenOwner, string givenColor,
+    public Property(int givenRent, int givenPrice, bool givenOwned, string givenOwner, string givenColor,
     string givenName, string givenType, int givenPosition): base(givenName, givenType, givenPosition){
         Rent = givenRent;
         price = givenPrice;
@@ -81,7 +111,7 @@ public class Property : Space
         Rent = int.Parse(datas[2].Trim());
         price = Convert.ToInt32(datas[3].Trim());
         owned = bool.Parse(datas[4].Trim());
-        owner = Convert.ToInt32(datas[5].Trim());
+        owner = datas[5].Trim();
         color = datas[6].Trim();
     }
     //Constructor used when adding Properties to the board
@@ -89,13 +119,40 @@ public class Property : Space
         Rent = int.Parse(datas[0].Trim());
         price = Convert.ToInt32(datas[1].Trim());
         owned = bool.Parse(datas[2].Trim());
-        owner = Convert.ToInt32(datas[3].Trim());
+        owner = datas[3].Trim();
         color = datas[4].Trim();
     }
     //Blank constructor used for DEBUGGING
     public Property(){
         Console.WriteLine("Called the Wrong Property Constructor");
     }
+    public override string getOwner(){
+        return owner;
+    }
+    public override void showData(){
+        Console.WriteLine("{0}", Name);
+        Console.WriteLine("{0}", Type);
+        Console.WriteLine("{0}", position);
+        Console.WriteLine("{0}", color);
+        Console.WriteLine("Price: {0}", price);
+        Console.WriteLine("Rent: {0}", Rent);
+        if(owned == false){
+            Console.WriteLine("Currently unowned.");
+        }else{
+            Console.WriteLine("Owned by {0}", owner);
+        }
+    }
+    public override int getRent(){
+        return Rent;
+    }
+    public override int getPrice(){
+        return price;
+    }
+    public override string getName(){
+        return Name;
+    }
+    
+    
 }
 //start of resedential property class
 public class Resedential : Property
@@ -114,7 +171,7 @@ public class Resedential : Property
             Rent *= 4;
         }
     }
-    public override void updateOwner(int givenInt)
+    public override void updateOwner(string givenOwner)
     {
 
     }
@@ -129,18 +186,14 @@ public class Utility : Property
     bool rentDualUtility;
     int RentDualUtility;
     //utility class functions
-    public override void calculaterent()
+    public override void updateOwner(string givenOwner)
     {
-        if(rentDualUtility == true){
-            Rent = Rent + (10 * RentDualUtility);
-        }
-    }
-    public override void updateOwner(int givenInt)
-    {
-        owner = givenInt;
+        owned = true;
+        owner = givenOwner;
+        Console.WriteLine("Owner is now: {0}", owner);
     }
     //Original Constructor. Can be removed
-    public Utility(bool givenRentDualUtility, int givenRentNumber,int givenRent, int givenPrice, bool givenOwned, int givenOwner, string givenColor,
+    public Utility(bool givenRentDualUtility, int givenRentNumber,int givenRent, int givenPrice, bool givenOwned, string givenOwner, string givenColor,
     string givenName, string givenType, int givenPosition):
     base(givenRent,givenPrice,givenOwned,givenOwner, givenColor,
     givenName,givenType,givenPosition){
@@ -154,6 +207,15 @@ public class Utility : Property
         //Console.WriteLine(datas[0].Trim());
         RentDualUtility = Convert.ToInt32(datas[1].Trim());
         //Console.WriteLine(datas[1].Trim());
+    }
+    public override string getOwner(){
+        return owner;
+    }
+    public override int getRent(){
+        if(rentDualUtility == true){
+            Rent = Rent + (10 * RentDualUtility);
+        }
+        return Rent;
     }
 }
 //end of utility property class
@@ -178,14 +240,14 @@ public class otherSpace : Space
                 int charge = amount * 10;
                 
                 if(initial == 1){
-                    player.CompleteTask("-"+string.Parse(charge));
+                    player.CompleteTask(charge);
                 }
                 else{
-                    player.CompleteTask(string.Parse(charge));
+                    player.CompleteTask(charge);
                 }
                 break;
             case "-100":
-                player.CompleteTask(-100):
+                player.CompleteTask(-100);
                 break;
             case "Chance":
                 //moves the player to a random place on the board
@@ -223,28 +285,75 @@ public class otherSpace : Space
     public otherSpace(string[] datas):base(datas){
         action = datas[0].Trim();
     }
+    public override void showData(){
+        Console.WriteLine("{0}", Name);
+        Console.WriteLine("{0}", position);
+    }
 }
 public class Player
 {
     string Name;
-    int playerPiece;
+    //playerPiece is useless since we can determine by name
+    //int playerPiece;
     int plyrPosition;
     int plyrMoney;
-    List<string> PropertiesOwned = new List <string> ();
+    List<string> PropertiesOwned;
     bool jailed;
     //player functions
-    public void addPlayer(int givenNum)
-    {
-        Console.WriteLine("NAME: ");
-        Name = Console.ReadLine();
+    public Player(string givenName){
+        Name = givenName;
         plyrPosition = 1;
-        playerPiece = givenNum++;
-        jailed = false;
-        //subject to change for balance
         plyrMoney = 2000;
+        jailed = false;
+        PropertiesOwned = new List <string> ();
+    }
+    public void getRent(int rentMoney){
+        Console.WriteLine("{0} just got paid ${1}", Name, rentMoney);
+        plyrMoney += rentMoney;
+        Console.WriteLine("Your new total is ${0}", plyrMoney);
+    }
+    public List<string> transferOwner(){
+        return PropertiesOwned;
+    }
+    public string ShowName(){
+        return Name;
+    }
+    public void receiveProperty(List<string> newProperties){
+        PropertiesOwned.AddRange(newProperties);
+        Console.WriteLine("{0}'s new list of properties are: ", Name);
+        foreach(string element in PropertiesOwned){
+            Console.WriteLine(element);
+        }
+        Console.WriteLine("----------");
+    }
+    public void ListInfo(){
+        Console.WriteLine("Name: {0}", Name);
+        Console.WriteLine("Current Position: {0}", plyrPosition);
+        Console.WriteLine("Current Money: ${0}", plyrMoney);
+        if(jailed == true){
+            Console.WriteLine("{0} is currently in jail.", Name);
+        }else{
+            Console.WriteLine("{0} isn't in jail", Name);
+        }
+        bool DoContinue = true;
+        while(DoContinue){
+            Console.WriteLine("Show properties? (yes or no)");
+            string answer = Console.ReadLine();
+            if(answer == "yes"){
+                foreach (string element in PropertiesOwned){
+                    Console.WriteLine(element);
+                }
+                DoContinue = false;
+            }else if(answer == "no"){
+                DoContinue = false;
+            }
+        }
     }
     public void updateJail(bool update){
         jailed = update;
+    }
+    public void updateName(string givenName){
+        Name = givenName;
     }
     public void updatePlayer()
     {
@@ -254,19 +363,43 @@ public class Player
     {
         Random rnd = new Random();
         int dice = rnd.Next(1, 7);
-        plyrPosition += dice;
+        int dice2 = rnd.Next(1, 7);
+        Console.WriteLine("You rolled {0} and {1}", dice, dice2);
+        plyrPosition += (dice + dice2);
         if(plyrPosition >= 41){
             plyrPosition -= 40;
         }
     }
+    public int getPosition(){
+        return plyrPosition;
+    }
+    public int getPlyrMoney(){
+        return plyrMoney;
+    }
     public void PayRent(int rentCharge)
     {
+        Console.WriteLine("You have to pay: ${0}", rentCharge);
         plyrMoney -= rentCharge;
+        Console.WriteLine("You now have: ${0}", plyrMoney);
     }
     public void BuySpace(string SpaceName, int PriceAmount)
     {
         PropertiesOwned.Add(SpaceName);
         plyrMoney -= PriceAmount;
+        Console.WriteLine("You now have: ${0}", plyrMoney);
+        bool listProperties = true;
+        while(listProperties){
+            Console.WriteLine("List your properties? yes or no");
+            string answer = Console.ReadLine();
+            if(answer == "yes"){
+                foreach(string s in PropertiesOwned){
+                    Console.WriteLine(s);
+                }
+                listProperties = false;
+            }else if (answer == "no"){
+                listProperties = false;
+            }
+        }
     }
     public void CompleteTask(int task)
     {
@@ -288,7 +421,7 @@ public class Player
         plyrMoney -= 200;
     }
     public void MovePlayer(int x){
-        position = x;
+        plyrPosition = x;
     }
     //end of player functions
 }
