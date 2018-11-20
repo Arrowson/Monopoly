@@ -10,10 +10,18 @@
  * Oscar Davila
  ---
  ### Updated
- ###### 10/29/2018 
+ ###### 11/20/2018 
  ---
  ### Description
  Basically, we are recreating Monopoly using Object Oriented techniques. The program will be multiplayer, with the current player shifting automatically. The program will, at this point, be run through the command prompt and take general input from the users.
  
  ---
  [general rules for Monopoly](https://winning-moves.com/images/megamonopolyrules.pdf)
+ 
+ ---
+ #### Notes and Things to Do
+ 
+ 1. Implement Monopolies
+ 2. Implement Mortgaging of properties
+ 3. Implement OtherSpace actions
+ 4. Implement House/Hotel purchases
