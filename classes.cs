@@ -17,23 +17,10 @@ public abstract class Space
     }
     //Constructor called for adding OtherSpaces to Board
     public Space(string[] datas){
-        Name = datas[1].Trim();
-        Type = datas[2].Trim();
-        position = int.Parse(datas[3].Trim());
+        Name = datas[0].Trim();
+        Type = datas[1].Trim();
+        position = int.Parse(datas[2].Trim());
     }
-    //Constructor called for adding Utilities to Board
-    public Space(string[] datas, string Util, string Prop){
-        Name = datas[7].Trim();
-        Type = datas[8].Trim();
-        position = Convert.ToInt32(datas[9].Trim());
-    }
-    //Constructor called for adding Properties
-    public Space(string[] datas, string Prop){
-        Name = datas[5].Trim();
-        Type = datas[6].Trim();
-        position = Convert.ToInt32(datas[7].Trim());
-    }
-    //Blank constructor used for DEBUGGING
     public Space(){
         Console.WriteLine("Called the wrong Space Constructor");
     }
@@ -106,21 +93,13 @@ public class Property : Space
         //DEBUG
         Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", Rent, price, owned, owner, Name, Type, position, color);
     }
-    //Constructor used when adding Utilities to the Board
-    public Property(string[] datas, string Util, string Prop):base(datas, Util, Prop){
-        Rent = int.Parse(datas[2].Trim());
-        price = Convert.ToInt32(datas[3].Trim());
-        owned = bool.Parse(datas[4].Trim());
-        owner = datas[5].Trim();
-        color = datas[6].Trim();
-    }
     //Constructor used when adding Properties to the board
-    public Property(string[] datas, string Prop):base(datas, Prop){
-        Rent = int.Parse(datas[0].Trim());
-        price = Convert.ToInt32(datas[1].Trim());
-        owned = bool.Parse(datas[2].Trim());
-        owner = datas[3].Trim();
-        color = datas[4].Trim();
+    public Property(string[] datas):base(datas){
+        Rent = int.Parse(datas[3].Trim());
+        price = Convert.ToInt32(datas[4].Trim());
+        owned = bool.Parse(datas[5].Trim());
+        owner = datas[6].Trim();
+        color = datas[7].Trim();
     }
     //Blank constructor used for DEBUGGING
     public Property(){
@@ -202,10 +181,10 @@ public class Utility : Property
         Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}", Name, Type, position, color, owned, owner, price, Rent, rentDualUtility, RentDualUtility);
     }
     //Constructor used for adding Utilities to the Board
-    public Utility(string[] datas, string Util, string Prop):base(datas, Util, Prop){
-        rentDualUtility = bool.Parse(datas[0].Trim());
+    public Utility(string[] datas):base(datas){
+        rentDualUtility = bool.Parse(datas[8].Trim());
         //Console.WriteLine(datas[0].Trim());
-        RentDualUtility = Convert.ToInt32(datas[1].Trim());
+        RentDualUtility = Convert.ToInt32(datas[9].Trim());
         //Console.WriteLine(datas[1].Trim());
     }
     public override string getOwner(){
@@ -283,7 +262,7 @@ public class otherSpace : Space
     }
     //Constructor used to add OtherSpaces to the Board
     public otherSpace(string[] datas):base(datas){
-        action = datas[0].Trim();
+        action = datas[3].Trim();
     }
     public override void showData(){
         Console.WriteLine("{0}", Name);

@@ -63,10 +63,10 @@ namespace Monopoly
                 if (i != 0){
                     if(DataType == 'U'){
                         //add string[] to Utility Constructor
-                        Spaces.Add(new Utility(sData, "Utility", "Property"));
+                        Spaces.Add(new Utility(sData));
                     }
                     if(DataType == 'P'){
-                        Spaces.Add(new Property(sData, "Property"));
+                        Spaces.Add(new Property(sData));
                     }
                     if(DataType == 'O'){
                         Spaces.Add(new otherSpace(sData));
