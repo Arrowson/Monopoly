@@ -1,14 +1,6 @@
 {
-  "ProjectFilePath": "c:\\Users\\arrow\\Downloads\\Monopoly-master (2)\\Monopoly-master\\Monopoly.csproj",
+  "ProjectFilePath": "c:\\Users\\revel\\Documents\\Fall 2018\\4360( obj anylysis and design)\\Monopoly\\Monopoly.csproj",
   "TargetFramework": "netcoreapp2.1",
   "TagHelpers": [],
-  "Configuration": {
-    "ConfigurationName": "UnsupportedRazor",
-    "LanguageVersion": "1.0",
-    "Extensions": [
-      {
-        "ExtensionName": "UnsupportedRazorExtension"
-      }
-    ]
-  }
+  "Configuration": null
 }
