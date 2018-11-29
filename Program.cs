@@ -159,6 +159,8 @@ namespace Monopoly
                             }
                         }
                         
+                    }else if (s.getType() == "OtherSpace"){
+                        s.performAction(p);
                     }
                 }
                 potentialNewOwner = s.getOwner();

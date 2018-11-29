@@ -27,6 +27,7 @@ public abstract class Space
     public virtual int getPosition(){
         return position;
     }
+    public virtual void performAction(Player player){}
     public virtual string getOwner(){
         return null;
     }
@@ -203,10 +204,9 @@ public class otherSpace : Space
 {
     string action;
     //functions for otherSpace
-    public void performAction(Player player)
+    public override void performAction(Player player)
     {
         switch (action){
-
             case "200":
                 player.CompleteTask(200);
                 break;
@@ -217,15 +217,16 @@ public class otherSpace : Space
                 int initial = CardDrawn.Next(1,3);
                 int amount = CardDrawn.Next(1, 21);
                 int charge = amount * 10;
-                
+                Console.WriteLine("${0}", charge);
                 if(initial == 1){
                     player.CompleteTask(charge);
                 }
                 else{
-                    player.CompleteTask(charge);
+                    player.CompleteTask(charge * -1);
                 }
                 break;
             case "-100":
+                Console.WriteLine("$-100");
                 player.CompleteTask(-100);
                 break;
             case "Chance":
@@ -242,10 +243,16 @@ public class otherSpace : Space
                 break;
             case "Go Jail":
                 //makes the player go to jail and updates the boolean
+                Console.WriteLine("GO...");
+                Console.ReadLine();
+                Console.WriteLine("TO...");
+                Console.ReadLine();
+                Console.WriteLine("JAIL!");
                 player.updateJail(true);
                 player.MovePlayer(11);
                 break;
             case "-200":
+                Console.WriteLine("$-200");
                 player.CompleteTask(-200);
                 break;
         }
@@ -343,10 +350,37 @@ public class Player
         Random rnd = new Random();
         int dice = rnd.Next(1, 7);
         int dice2 = rnd.Next(1, 7);
-        Console.WriteLine("You rolled {0} and {1}", dice, dice2);
-        plyrPosition += (dice + dice2);
+        if(jailed == false){
+            Console.WriteLine("You rolled {0} and {1}", dice, dice2);
+            plyrPosition += (dice + dice2);
+        }else{
+            var checkAnswer = true;
+            while(checkAnswer){
+            Console.WriteLine("Do you want to pay $50 to leave? ");
+            var answer = Console.ReadLine();
+            if(answer == "yes"){
+                plyrMoney -= 50;
+                Console.WriteLine("You got out of jail!");
+                jailed = false;
+                checkAnswer = false;
+            }else if(answer == "no"){
+                Console.WriteLine("You rolled {0} and {1}", dice, dice2);
+                checkAnswer = false;
+                if(dice == dice2){
+                Console.WriteLine("You got out of jail!");
+                jailed = false;
+                }else{
+                Console.WriteLine("Booooo, still in jail.");
+                }
+             }
+            }
+            
+        }
         if(plyrPosition >= 41){
             plyrPosition -= 40;
+            Console.WriteLine("You passed Go! Collect $200");
+            plyrMoney += 200;
+            Console.WriteLine("You now have: ${0}", plyrMoney);
         }
     }
     public int getPosition(){
@@ -382,7 +416,8 @@ public class Player
     }
     public void CompleteTask(int task)
     {
-
+        plyrMoney += task;
+        Console.WriteLine("You now have: ${0}", plyrMoney);
     }
     public void Mortgage( int MortgageAmount, string SpaceName)
     {
@@ -401,6 +436,7 @@ public class Player
     }
     public void MovePlayer(int x){
         plyrPosition = x;
+        Console.WriteLine("WOW! You're now at: {0}", plyrPosition);
     }
     //end of player functions
 }
