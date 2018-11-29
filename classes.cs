@@ -67,11 +67,19 @@ public class Property : Space
     protected bool owned;
     protected string owner;
     protected string color;
+
+    protected int numHouses;
+
+    protected int numHotels;
     // start of property functions
     public virtual void calculaterent()
     {
         //rent typically is only rent
-        Rent = Rent;
+        if(numHouses != 0){
+            Rent = Rent * (numHouses * 5);
+        }else if(numHotels != 0){
+            Rent = Rent * (numHotels * 30);
+        }
     }
     public override void updateOwner(string givenOwner)
     {
@@ -101,6 +109,8 @@ public class Property : Space
         owned = bool.Parse(datas[5].Trim());
         owner = datas[6].Trim();
         color = datas[7].Trim();
+        numHouses = 0;
+        numHotels = 0;
     }
     //Blank constructor used for DEBUGGING
     public Property(){
@@ -123,6 +133,7 @@ public class Property : Space
         }
     }
     public override int getRent(){
+        calculaterent();
         return Rent;
     }
     public override int getPrice(){
