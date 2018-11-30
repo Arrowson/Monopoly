@@ -15,6 +15,9 @@ public abstract class Space
         Type = givenType;
         position = givenPosition;
     }
+    public virtual string GetColor(){
+        return "TEST";
+    }
     //Constructor called for adding OtherSpaces to Board
     public Space(string[] datas){
         Name = datas[0].Trim();
@@ -27,6 +30,7 @@ public abstract class Space
     public virtual int getPosition(){
         return position;
     }
+    public virtual void addHouse(){}
     public virtual void performAction(Player player){}
     public virtual string getOwner(){
         return null;
@@ -80,6 +84,20 @@ public class Property : Space
         }else if(numHotels != 0){
             Rent = Rent * (numHotels * 30);
         }
+    }
+    public override void addHouse(){
+        if(numHotels == 0){
+            numHouses++;
+            if(numHouses == 4){
+                Console.WriteLine("CONGRATS! YOU NOW HAVE A HOTEL!");
+                numHouses = 0;
+            }else{
+                Console.WriteLine("You now have {0} houses on this space.", numHouses);
+            }
+        }
+    }
+    public override string GetColor(){
+        return color;
     }
     public override void updateOwner(string givenOwner)
     {
@@ -296,6 +314,7 @@ public class Player
     int plyrMoney;
     List<string> PropertiesOwned;
     bool jailed;
+    List<string> Monopolies;
     //player functions
     public Player(string givenName){
         Name = givenName;
@@ -303,6 +322,7 @@ public class Player
         plyrMoney = 2000;
         jailed = false;
         PropertiesOwned = new List <string> ();
+        Monopolies = new List <string> ();
     }
     public void getRent(int rentMoney){
         Console.WriteLine("{0} just got paid ${1}", Name, rentMoney);
@@ -355,6 +375,12 @@ public class Player
     public void updatePlayer()
     {
 
+    }
+    public void addMonopoly(string s){
+        Monopolies.Add(s);
+    }
+    public List<string> getMonopolies(){
+        return Monopolies;
     }
     public void RollDice()
     {
@@ -448,6 +474,9 @@ public class Player
     public void MovePlayer(int x){
         plyrPosition = x;
         Console.WriteLine("WOW! You're now at: {0}", plyrPosition);
+    }
+    public List<string> getProperties(){
+        return PropertiesOwned;
     }
     //end of player functions
 }
