@@ -21,7 +21,5 @@
  ---
  #### Notes and Things to Do
  
- 1. Implement Monopolies
- 2. Implement Mortgaging of properties
- 3. Implement OtherSpace actions
- 4. Implement House/Hotel purchases
+1. Implement Mortgaging of houses/Properties
+2. Allow for trades
