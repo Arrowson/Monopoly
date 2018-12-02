@@ -15,6 +15,9 @@ public abstract class Space
         Type = givenType;
         position = givenPosition;
     }
+    public virtual string GetColor(){
+        return "TEST";
+    }
     //Constructor called for adding OtherSpaces to Board
     public Space(string[] datas){
         Name = datas[0].Trim();
@@ -27,6 +30,8 @@ public abstract class Space
     public virtual int getPosition(){
         return position;
     }
+    public virtual void addHouse(){}
+    public virtual void performAction(Player player){}
     public virtual string getOwner(){
         return null;
     }
@@ -66,11 +71,33 @@ public class Property : Space
     protected bool owned;
     protected string owner;
     protected string color;
+
+    protected int numHouses;
+
+    protected int numHotels;
     // start of property functions
     public virtual void calculaterent()
     {
         //rent typically is only rent
-        Rent = Rent;
+        if(numHouses != 0){
+            Rent = Rent * (numHouses * 5);
+        }else if(numHotels != 0){
+            Rent = Rent * (numHotels * 30);
+        }
+    }
+    public override void addHouse(){
+        if(numHotels == 0){
+            numHouses++;
+            if(numHouses == 4){
+                Console.WriteLine("CONGRATS! YOU NOW HAVE A HOTEL!");
+                numHouses = 0;
+            }else{
+                Console.WriteLine("You now have {0} houses on this space.", numHouses);
+            }
+        }
+    }
+    public override string GetColor(){
+        return color;
     }
     public override void updateOwner(string givenOwner)
     {
@@ -100,6 +127,8 @@ public class Property : Space
         owned = bool.Parse(datas[5].Trim());
         owner = datas[6].Trim();
         color = datas[7].Trim();
+        numHouses = 0;
+        numHotels = 0;
     }
     //Blank constructor used for DEBUGGING
     public Property(){
@@ -122,6 +151,7 @@ public class Property : Space
         }
     }
     public override int getRent(){
+        calculaterent();
         return Rent;
     }
     public override int getPrice(){
@@ -203,10 +233,9 @@ public class otherSpace : Space
 {
     string action;
     //functions for otherSpace
-    public void performAction(Player player)
+    public override void performAction(Player player)
     {
         switch (action){
-
             case "200":
                 player.CompleteTask(200);
                 break;
@@ -217,15 +246,16 @@ public class otherSpace : Space
                 int initial = CardDrawn.Next(1,3);
                 int amount = CardDrawn.Next(1, 21);
                 int charge = amount * 10;
-                
+                Console.WriteLine("${0}", charge);
                 if(initial == 1){
                     player.CompleteTask(charge);
                 }
                 else{
-                    player.CompleteTask(charge);
+                    player.CompleteTask(charge * -1);
                 }
                 break;
             case "-100":
+                Console.WriteLine("$-100");
                 player.CompleteTask(-100);
                 break;
             case "Chance":
@@ -242,10 +272,16 @@ public class otherSpace : Space
                 break;
             case "Go Jail":
                 //makes the player go to jail and updates the boolean
+                Console.WriteLine("GO...");
+                Console.ReadLine();
+                Console.WriteLine("TO...");
+                Console.ReadLine();
+                Console.WriteLine("JAIL!");
                 player.updateJail(true);
                 player.MovePlayer(11);
                 break;
             case "-200":
+                Console.WriteLine("$-200");
                 player.CompleteTask(-200);
                 break;
         }
@@ -278,6 +314,7 @@ public class Player
     int plyrMoney;
     List<string> PropertiesOwned;
     bool jailed;
+    List<string> Monopolies;
     //player functions
     public Player(string givenName){
         Name = givenName;
@@ -285,6 +322,7 @@ public class Player
         plyrMoney = 2000;
         jailed = false;
         PropertiesOwned = new List <string> ();
+        Monopolies = new List <string> ();
     }
     public void getRent(int rentMoney){
         Console.WriteLine("{0} just got paid ${1}", Name, rentMoney);
@@ -338,15 +376,48 @@ public class Player
     {
 
     }
+    public void addMonopoly(string s){
+        Monopolies.Add(s);
+    }
+    public List<string> getMonopolies(){
+        return Monopolies;
+    }
     public void RollDice()
     {
         Random rnd = new Random();
         int dice = rnd.Next(1, 7);
         int dice2 = rnd.Next(1, 7);
-        Console.WriteLine("You rolled {0} and {1}", dice, dice2);
-        plyrPosition += (dice + dice2);
+        if(jailed == false){
+            Console.WriteLine("You rolled {0} and {1}", dice, dice2);
+            plyrPosition += (dice + dice2);
+        }else{
+            var checkAnswer = true;
+            while(checkAnswer){
+            Console.WriteLine("Do you want to pay $50 to leave? ");
+            var answer = Console.ReadLine();
+            if(answer == "yes"){
+                plyrMoney -= 50;
+                Console.WriteLine("You got out of jail!");
+                jailed = false;
+                checkAnswer = false;
+            }else if(answer == "no"){
+                Console.WriteLine("You rolled {0} and {1}", dice, dice2);
+                checkAnswer = false;
+                if(dice == dice2){
+                Console.WriteLine("You got out of jail!");
+                jailed = false;
+                }else{
+                Console.WriteLine("Booooo, still in jail.");
+                }
+             }
+            }
+            
+        }
         if(plyrPosition >= 41){
             plyrPosition -= 40;
+            Console.WriteLine("You passed Go! Collect $200");
+            plyrMoney += 200;
+            Console.WriteLine("You now have: ${0}", plyrMoney);
         }
     }
     public int getPosition(){
@@ -382,7 +453,8 @@ public class Player
     }
     public void CompleteTask(int task)
     {
-
+        plyrMoney += task;
+        Console.WriteLine("You now have: ${0}", plyrMoney);
     }
     public void Mortgage( int MortgageAmount, string SpaceName)
     {
@@ -401,6 +473,10 @@ public class Player
     }
     public void MovePlayer(int x){
         plyrPosition = x;
+        Console.WriteLine("WOW! You're now at: {0}", plyrPosition);
+    }
+    public List<string> getProperties(){
+        return PropertiesOwned;
     }
     //end of player functions
 }
