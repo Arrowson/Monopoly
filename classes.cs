@@ -353,16 +353,41 @@ public class Player
             Console.WriteLine("{0} isn't in jail", Name);
         }
         bool DoContinue = true;
-        while(DoContinue){
+        while(DoContinue)
+        {
             Console.WriteLine("Show properties? (yes or no)");
             string answer = Console.ReadLine();
-            if(answer == "yes"){
-                foreach (string element in PropertiesOwned){
-                    Console.WriteLine(element);
-                }
-                DoContinue = false;
-            }else if(answer == "no"){
-                DoContinue = false;
+            // if(answer == "yes"){
+            //     foreach (string element in PropertiesOwned){
+            //         Console.WriteLine(element);
+            //     }
+            //     DoContinue = false;
+            // }else if(answer == "no"){
+            //     DoContinue = false;
+            // }
+            switch(answer)
+            {
+                case "yes":
+                case "YES":
+                case "Yes":
+                case "y":
+                case "Y":
+                    foreach (string element in PropertiesOwned)
+                    {
+                        Console.WriteLine(element);
+                    }
+                    DoContinue = false;
+                    break;
+                case "no":
+                case "NO":
+                case "No":
+                case "n":
+                case "N":
+                    DoContinue = false;
+                    break;
+                default:
+
+                    break;
             }
         }
     }
@@ -441,13 +466,35 @@ public class Player
         while(listProperties){
             Console.WriteLine("List your properties? yes or no");
             string answer = Console.ReadLine();
-            if(answer == "yes"){
-                foreach(string s in PropertiesOwned){
-                    Console.WriteLine(s);
-                }
-                listProperties = false;
-            }else if (answer == "no"){
-                listProperties = false;
+            // if(answer == "yes"){
+            //     foreach(string s in PropertiesOwned){
+            //         Console.WriteLine(s);
+            //     }
+            //     listProperties = false;
+            // }else if (answer == "no"){
+            //     listProperties = false;
+            // }
+            switch(answer)
+            {
+                case "yes":
+                case "YES":
+                case "Yes":
+                case "y":
+                    foreach (string element in PropertiesOwned)
+                    {
+                        Console.WriteLine(element);
+                    }
+                    listProperties = false;
+                    break;
+                case "no":
+                case "NO":
+                case "No":
+                case "n":
+                    listProperties = false;
+                    break;
+                default:
+                    
+                    break;
             }
         }
     }
